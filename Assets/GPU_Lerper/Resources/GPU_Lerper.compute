@@ -1,0 +1,66 @@
+﻿#pragma kernel BufferLerp1
+#pragma kernel BufferLerp2
+#pragma kernel BufferLerp3
+#pragma kernel BufferLerp4
+
+#define NUM_THREADS 8
+
+
+StructuredBuffer<float> _BufferA1;
+StructuredBuffer<float> _BufferB1;
+
+StructuredBuffer<float2> _BufferA2;
+StructuredBuffer<float2> _BufferB2;
+
+StructuredBuffer<float3> _BufferA3;
+StructuredBuffer<float3> _BufferB3;
+
+StructuredBuffer<float4> _BufferA4;
+StructuredBuffer<float4> _BufferB4;
+
+RWStructuredBuffer<float>  _BufferOutput1;
+RWStructuredBuffer<float2> _BufferOutput2;
+RWStructuredBuffer<float3> _BufferOutput3;
+RWStructuredBuffer<float4> _BufferOutput4;
+
+
+float _LerpAmount;
+int _Count;
+
+[numthreads(NUM_THREADS,1,1)]
+void BufferLerp1(uint3 id : SV_DispatchThreadID)
+{
+	int idx = id.x;
+	float posA = _BufferA1[idx];
+	float posB = _BufferB1[idx];
+	_BufferOutput1[idx] = posA + _LerpAmount * (posB - posA);
+}
+
+[numthreads(NUM_THREADS, 1, 1)]
+void BufferLerp2(uint3 id : SV_DispatchThreadID)
+{
+	int idx = id.x;
+	float2 posA = _BufferA2[idx];
+	float2 posB = _BufferB2[idx];
+	_BufferOutput2[idx] = posA + _LerpAmount * (posB - posA);
+}
+
+
+[numthreads(NUM_THREADS, 1, 1)]
+void BufferLerp3(uint3 id : SV_DispatchThreadID)
+{
+	int idx = id.x;
+	float3 posA = _BufferA3[idx];
+	float3 posB = _BufferB3[idx];
+	_BufferOutput3[idx] = posA + _LerpAmount * (posB - posA);
+}
+
+
+[numthreads(NUM_THREADS, 1, 1)]
+void BufferLerp4(uint3 id : SV_DispatchThreadID)
+{
+	int idx = id.x;
+	float4 posA = _BufferA4[idx];
+	float4 posB = _BufferB4[idx];
+	_BufferOutput4[idx] = posA + _LerpAmount * (posB - posA);
+}
